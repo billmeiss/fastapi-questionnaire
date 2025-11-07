@@ -12,6 +12,11 @@ docker-compose up --build
 
 The API will be available at `http://localhost:8001`
 
+Tests can be run with the following command:
+```bash
+docker compose run web pytest
+```
+
 ## API Documentation
 
 Once running, access:
@@ -182,7 +187,7 @@ Multiple choice questions with multiple correct answers.
 ## Development
 
 - Format code: `black .`
-- Run tests: `pytest`
+- Run tests: `docker compose run web pytest`
 
 ## Project Structure
 
