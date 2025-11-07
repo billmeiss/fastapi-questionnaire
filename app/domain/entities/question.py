@@ -5,6 +5,11 @@ from enum import Enum
 ## We could have either declared different entities for each question type or use a single class with a question_type field.
 ## I went with the latter option to keep the database schema simple, although this means validation logic can be quite overwhelming to make sure only fields relevant to the question type are used.
 
+MAX_QUESTION_TEXT_LENGTH = 500
+MIN_QUESTION_TEXT_LENGTH = 1
+MIN_SINGLE_CHOICE_OPTIONS = 2
+MIN_MULTI_CHOICE_OPTIONS = 3
+MIN_MULTI_CHOICE_CORRECT_ANSWERS = 2
 
 class QuestionType(Enum):
     TEXT = "text"
@@ -76,7 +81,7 @@ class Question:
 
     def _validate(self):
         """Validate question based on type"""
-        if not self.question_text or len(self.question_text) > 500:
+        if not self.question_text or len(self.question_text) < MIN_QUESTION_TEXT_LENGTH or len(self.question_text) > MAX_QUESTION_TEXT_LENGTH:
             raise ValueError("Question text must be 1-500 characters")
 
         if self.question_type == QuestionType.TEXT:
@@ -121,7 +126,7 @@ class Question:
         return self._validate_fields_for_type()
 
     def validate_single_choice_question(self):
-        if not self.options or len(self.options) < 2:
+        if not self.options or len(self.options) < MIN_SINGLE_CHOICE_OPTIONS:
             raise ValueError("SINGLE_CHOICE requires at least 2 options")
         if not (0 <= self.correct_option_index < len(self.options)):
             raise ValueError(
@@ -130,7 +135,7 @@ class Question:
         return self._validate_fields_for_type()
 
     def validate_multi_choice_question(self):
-        if not self.options or len(self.options) < 3:
+        if not self.options or len(self.options) < MIN_MULTI_CHOICE_OPTIONS:
             raise ValueError("MULTI_CHOICE requires at least 3 options")
         if not self.correct_option_indices or len(self.correct_option_indices) < 2:
             raise ValueError(

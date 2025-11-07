@@ -2,6 +2,10 @@ from typing import List, Optional
 from datetime import datetime
 
 
+MAX_TITLE_LENGTH = 255
+MIN_TITLE_LENGTH = 1
+MAX_DESCRIPTION_LENGTH = 500
+
 class Questionnaire:
     """Domain entity for a questionnaire - simple ordered list of question IDs"""
 
@@ -30,11 +34,11 @@ class Questionnaire:
         self._validate_question_ids()
 
     def _validate_title(self):
-        if not self.title or len(self.title) > 255:
+        if not self.title or len(self.title) < MIN_TITLE_LENGTH or len(self.title) > MAX_TITLE_LENGTH:
             raise ValueError("Title must be 1-255 characters")
 
     def _validate_description(self):
-        if self.description and len(self.description) > 500:
+        if self.description and len(self.description) > MAX_DESCRIPTION_LENGTH:
             raise ValueError("Description must not exceed 500 characters")
 
     def _validate_question_ids(self):
