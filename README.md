@@ -10,6 +10,12 @@ Run the application using Docker Compose:
 docker-compose up --build
 ```
 
+To initialize the database, use `init_db`:
+
+```bash
+docker-compose exec web python -m app.init_db
+```
+
 The API will be available at `http://localhost:8001`
 
 Tests can be run with the following command:

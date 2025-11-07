@@ -9,11 +9,7 @@ from app.infrastructure.models.question_model import QuestionModel
 from app.infrastructure.models.questionnaire_model import QuestionnaireModel
 
 def init_database():
-    """Drop all existing tables and create fresh ones"""
-    print("Dropping existing tables...")
-    Base.metadata.drop_all(bind=engine)
-    print("✅ Tables dropped successfully!")
-    
+    """Create fresh database tables"""
     print("\nCreating database tables...")
     Base.metadata.create_all(bind=engine)
     
